@@ -6,6 +6,58 @@
     </div>
   {% endif %}
 
+
+  
+<div class="page-intro">
+  {%- if page.image -%}
+    {%- assign intro_image = page.image.path | default: page.image | relative_url | escape -%}
+    {{ page.title }}
+  {%- endif -%}
+
+  <div class="intro-header">
+    <h2 class="intro-title">
+      {{ page.alt_title | default: page.title | default: site.title | markdownify | strip_html }}
+    </h2>
+
+    {%- if page.sub_title -%}
+      <p class="intro-subtitle">
+        {{ page.sub_title | markdownify | strip_html }}
+      </p>
+    {%- endif -%}
+
+    {%- if page.date -%}
+      <p class="intro-meta">
+        {%- include author -%}
+        {%- if author_name -%}{{ author_name | prepend: 'by ' }}{%- endif -%}
+        {%- include icon-calendar.svg -%}{{ page.date | date: "%B %-d, %Y" }}
+        {%- if page.read_time -%}
+          {%- include icon-stopwatch.svg -%}
+          {%- capture read_time -%}{% include read-time.html %}{%- endcapture -%}
+          {{ read_time | strip }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+
+  {%- if page.introduction -%}
+    <div class="intro-body">
+      {{ page.introduction | markdownify }}
+    </div>
+  {%- endif -%}
+
+  {%- if page.actions -%}
+    <ul class="intro-actions">
+      {%- for action in page.actions -%}
+               <li>
+          {{ action.url }}
+            {%- if action.icon -%}{% include {{ action.icon | prepend: 'icon-' | append: '.svg' }} %}{%- endif -%}
+            {{ action.label }}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
   <div class="inner">
     <div class="intro-text">
       <h1 id="page-title" class="intro-title">{{ page.alt_title | default: page.title | default: site.title | markdownify | strip_html }}</h1>
